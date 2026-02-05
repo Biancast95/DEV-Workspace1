@@ -1,0 +1,10 @@
+relationship efccf982-7c0d-4a7c-aa8c-164ca4ff7206
+	joinOnDateBehavior: datePartOnly
+	fromColumn: stg_pbi_apps_details.loaded_date
+	toColumn: LocalDateTable_65cd1591-337f-42cb-b892-ae422fdc2166.Date
+
+relationship 824f82d4-b671-4800-a93b-fb4950a6b4d4
+	joinOnDateBehavior: datePartOnly
+	fromColumn: stg_pbi_apps_details.lastupdate
+	toColumn: LocalDateTable_085fe947-773e-44f7-b583-e2e8d6d4b28d.Date
+

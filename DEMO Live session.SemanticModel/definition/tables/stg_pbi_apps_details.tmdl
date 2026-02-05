@@ -1,0 +1,92 @@
+table stg_pbi_apps_details
+	lineageTag: 1694dd59-7661-4b25-8ff6-fec11bb92e6e
+
+	column Apps
+		dataType: string
+		lineageTag: 2141e7e7-632f-43a2-8c9b-82f458687ac3
+		summarizeBy: none
+		sourceColumn: Apps
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: cedd2be3-adf9-4da9-91ff-4bcc2bd4547b
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column lastupdate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3c77f002-259e-4dee-90e2-20ea4fffc367
+		summarizeBy: none
+		sourceColumn: lastupdate
+
+		variation Variation
+			isDefault
+			relationship: 824f82d4-b671-4800-a93b-fb4950a6b4d4
+			defaultHierarchy: LocalDateTable_085fe947-773e-44f7-b583-e2e8d6d4b28d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column loaded_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c8280707-b918-4083-b041-b7dea7664504
+		summarizeBy: none
+		sourceColumn: loaded_date
+
+		variation Variation
+			isDefault
+			relationship: efccf982-7c0d-4a7c-aa8c-164ca4ff7206
+			defaultHierarchy: LocalDateTable_65cd1591-337f-42cb-b892-ae422fdc2166.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'publishedby.1'
+		dataType: string
+		lineageTag: dfce9aa4-f398-4be6-a7bc-9ce4e8901a80
+		summarizeBy: none
+		sourceColumn: publishedby.1
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'publishedby.2'
+		dataType: string
+		lineageTag: 6defa361-56f3-4174-92a8-c6b439dea4a6
+		summarizeBy: none
+		sourceColumn: publishedby.2
+
+		annotation SummarizationSetBy = Automatic
+
+	column len_description
+		dataType: string
+		lineageTag: cc7ef098-a1d4-4981-a9ff-fe9e62e8dc2d
+		summarizeBy: none
+		sourceColumn: len_description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition stg_pbi_apps_details = m
+		mode: import
+		source =
+				let
+				    Source = Odbc.DataSource("dsn=Jazz Redshift Prod - DataOps", [HierarchicalNavigation=true]),
+				    dataopsdw_Database = Source{[Name="dataopsdw",Kind="Database"]}[Data],
+				    stg_powerbi_metadata_Schema = dataopsdw_Database{[Name="stg_powerbi_metadata",Kind="Schema"]}[Data],
+				    stg_pbi_apps_details_Table = stg_powerbi_metadata_Schema{[Name="stg_pbi_apps_details",Kind="Table"]}[Data],
+				    #"Renamed Columns" = Table.RenameColumns(stg_pbi_apps_details_Table,{{"name", "Apps"}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Renamed Columns",{"Apps", "description", "publishedby", "lastupdate", "loaded_date"}),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Removed Other Columns",{{"lastupdate", type datetime}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","x-","",Replacer.ReplaceText,{"publishedby"}),
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Replaced Value", "publishedby", Splitter.SplitTextByEachDelimiter({" "}, QuoteStyle.Csv, false), {"publishedby.1", "publishedby.2"}),
+				    #"Added Custom" = Table.AddColumn(#"Split Column by Delimiter", "len_description", each Text.Length([description]))
+				in
+				    #"Added Custom"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
