@@ -1,0 +1,122 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "b24e0fcee2986e4b0e85",
+  "position": {
+    "x": 10,
+    "y": 498,
+    "z": 1,
+    "height": 222,
+    "width": 845,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "stg_pbi_apps_details"
+                    }
+                  },
+                  "Property": "len_description"
+                }
+              },
+              "queryRef": "stg_pbi_apps_details.len_description",
+              "nativeQueryRef": "len_description",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "stg_pbi_apps_details"
+                        }
+                      },
+                      "Property": "Apps"
+                    }
+                  },
+                  "Function": 5
+                }
+              },
+              "queryRef": "CountNonNull(stg_pbi_apps_details.Apps)",
+              "nativeQueryRef": "Apps"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "stg_pbi_apps_details"
+                      }
+                    },
+                    "Property": "Apps"
+                  }
+                },
+                "Function": 5
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "25e85d4ed0c24da332cf",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "stg_pbi_apps_details"
+              }
+            },
+            "Property": "len_description"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7fd8395e3efb8efe1948",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "stg_pbi_apps_details"
+                  }
+                },
+                "Property": "Apps"
+              }
+            },
+            "Function": 5
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}
