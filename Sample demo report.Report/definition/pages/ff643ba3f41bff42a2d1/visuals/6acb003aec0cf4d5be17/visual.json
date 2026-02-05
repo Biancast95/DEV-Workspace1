@@ -1,0 +1,84 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "6acb003aec0cf4d5be17",
+  "position": {
+    "x": 10.19830028328612,
+    "y": 0,
+    "z": 0,
+    "height": 488.49858356940513,
+    "width": 845.43909348441935,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "stg_pbi_apps_details"
+                    }
+                  },
+                  "Property": "Apps"
+                }
+              },
+              "queryRef": "stg_pbi_apps_details.Apps",
+              "nativeQueryRef": "Apps"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "stg_pbi_apps_details"
+                    }
+                  },
+                  "Property": "description"
+                }
+              },
+              "queryRef": "stg_pbi_apps_details.description",
+              "nativeQueryRef": "description"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "15c71311ce6b09b907a9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "stg_pbi_apps_details"
+              }
+            },
+            "Property": "Apps"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c54399c16ecf6386aa16",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "stg_pbi_apps_details"
+              }
+            },
+            "Property": "description"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}
